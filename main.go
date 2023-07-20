@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 	"time"
 
@@ -14,7 +15,7 @@ func main() {
 	// A good base middleware stack
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
-  r.Use(middleware.Heartbeat("/health"))
+	r.Use(middleware.Heartbeat("/health"))
 
 	// Set a timeout value on the request context (ctx), that will signal
 	// through ctx.Done() that the request has timed out and further
@@ -22,9 +23,17 @@ func main() {
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hi"))
+		tmpl, err := template.ParseFiles("templates/home.html", "templates/layouts/app.html")
+		if err != nil {
+			panic(err)
+		}
+
+		err = tmpl.ExecuteTemplate(w, "app.html", map[string]interface{}{"name": "home", "msg": "hello world"})
+		if err != nil {
+			panic(err)
+		}
 	})
 
-  fmt.Println("Starting fiber server on port 9000")
+	fmt.Println("Starting server on port 9000")
 	http.ListenAndServe(":9000", r)
 }

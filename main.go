@@ -4,13 +4,20 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		panic("Error loading .env file")
+	}
+
 	r := chi.NewRouter()
 	// A good base middleware stack
 	r.Use(middleware.Logger)
@@ -34,6 +41,7 @@ func main() {
 		}
 	})
 
-	fmt.Println("Starting server on port 9000")
-	http.ListenAndServe(":9000", r)
+	port := os.Getenv("PORT")
+	fmt.Printf("Starting server on port %s", port)
+	http.ListenAndServe(":"+port, r)
 }

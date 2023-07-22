@@ -1,9 +1,34 @@
 {{define "title"}}
-  Homelobby | {{index . "name"}}
+Homelobby | {{index . "title"}}
 {{end}}
 
 {{define "body"}}
-  <h1>{{index . "msg"}}</h1>
-  <h2>This is the home page.</h2>
-{{end}}
+<header>
+  <h2>Dashboard</h2>
+  <p>Track about your notes and payments.</p>
+</header>
 
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <header>
+        <a href="/notes">
+          <h4>Notes</h4>
+        </a>
+      </header>
+      <p>Some notes that help me to remind</p>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card">
+      <header>
+        <a href="/payments">
+          <h4>Payments</h4>
+        </a>
+      </header>
+      <p>Transaction payments specially electric and water bill</p>
+    </div>
+  </div>
+</div>
+{{end}}

@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joho/godotenv"
 
-	"github.com/jjdechavez/homelobby/views"
+	"github.com/jjdechavez/homelobby/handlers"
 )
 
 func main() {
@@ -30,11 +30,9 @@ func main() {
 	// processing should be stopped.
 	r.Use(middleware.Timeout(60 * time.Second))
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		var homeView *views.View
-		homeView = views.NewView("app", "views/home.html")
-		homeView.Render(w, map[string]interface{}{"name": "home", "msg": "hello world"})
-	})
+	r.Get("/", handlers.HomeHandler)
+	r.Get("/notes", handlers.NotesHandler)
+	r.Get("/payments", handlers.PaymentsHandler)
 
 	port := os.Getenv("PORT")
 	fmt.Printf("Starting server on port %s", port)

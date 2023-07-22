@@ -6,9 +6,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link href="css/style.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://unpkg.com/chota@latest">
   </head>
+  <style>
+    body.dark {
+      --bg-color: #000;
+      --bg-secondary-color: #131316;
+      --font-color: #f5f5f5;
+      --color-grey: #ccc;
+      --color-darkGrey: #777;
+    }
+
+    body > .container {
+      max-width: 720px;
+    }
+  </style>
   <body>
-    {{template "body" .}}
+    <nav class="nav">
+      <div class="nav-center">
+        <a href="/" class="brand text-light">
+          Homelobby
+        </a>
+      </div>
+    </nav>
+    <div class="container">
+      <nav style="margin-bottom: 2rem;">
+        <div class="nav-center" style="gap: 1.5rem;">
+          <a href="/" class="active">Dashboard</a>
+          <a href="/notes">Notes</a>
+          <a href="/payments">Payments</a>
+        </div>
+      </nav>
+
+      <main>
+        {{template "body" .}}
+      </main>
+    </div>
+
+    <script>
+      if (window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+    </script>
   </body>
 </html>
 {{end}}

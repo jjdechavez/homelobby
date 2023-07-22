@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"net/http"
 	"os"
 	"time"
@@ -10,6 +9,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joho/godotenv"
+
+	"github.com/jjdechavez/homelobby/views"
 )
 
 func main() {
@@ -30,15 +31,9 @@ func main() {
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		tmpl, err := template.ParseFiles("templates/home.html", "templates/layouts/app.html")
-		if err != nil {
-			panic(err)
-		}
-
-		err = tmpl.ExecuteTemplate(w, "app.html", map[string]interface{}{"name": "home", "msg": "hello world"})
-		if err != nil {
-			panic(err)
-		}
+		var homeView *views.View
+		homeView = views.NewView("app", "views/home.html")
+		homeView.Render(w, map[string]interface{}{"name": "home", "msg": "hello world"})
 	})
 
 	port := os.Getenv("PORT")

@@ -19,7 +19,7 @@ func (v *View) Render(w http.ResponseWriter, data interface{}) error {
 
 func InitView(r *http.Request, layout string, files ...string) *View {
 	hxRequest := r.Header.Get("HX-Request")
-  isHxRequest := hxRequest == "true"
+	isHxRequest := hxRequest == "true"
 
 	files = append(layoutFiles(), files...)
 	t, err := template.ParseFiles(files...)
@@ -27,14 +27,14 @@ func InitView(r *http.Request, layout string, files ...string) *View {
 		panic(err)
 	}
 
-  defaultLayout := layout
-  if isHxRequest {
-    defaultLayout = "body"
-  }
+	defaultLayout := layout
+	if isHxRequest {
+		defaultLayout = "body"
+	}
 
 	return &View{
 		Template: t,
-    Layout:   defaultLayout,
+		Layout:   defaultLayout,
 	}
 }
 

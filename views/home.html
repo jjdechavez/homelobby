@@ -8,11 +8,11 @@ Homelobby | {{index . "title"}}
   <p>Track about your notes and payments.</p>
 </header>
 
-<div class="row">
+<div class="row" hx-target="main" hx-swap="innerHTML">
   <div class="col">
     <div class="card">
       <header>
-        <a href="/notes">
+        <a hx-get="/notes">
           <h4>Notes</h4>
         </a>
       </header>
@@ -23,7 +23,7 @@ Homelobby | {{index . "title"}}
   <div class="col">
     <div class="card">
       <header>
-        <a href="/payments">
+        <a hx-get="/payments">
           <h4>Payments</h4>
         </a>
       </header>

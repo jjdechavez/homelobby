@@ -10,7 +10,9 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/joho/godotenv"
 
+	"github.com/jjdechavez/homelobby/db"
 	"github.com/jjdechavez/homelobby/handlers"
+	"github.com/jjdechavez/homelobby/storage"
 )
 
 func main() {
@@ -18,6 +20,10 @@ func main() {
 	if err != nil {
 		panic("Error loading .env file")
 	}
+
+	db := db.InitSqliteConnection()
+	noteStorage := storage.InitNoteStorage(db)
+	noteStorage.CreateNoteTable()
 
 	r := chi.NewRouter()
 	// A good base middleware stack

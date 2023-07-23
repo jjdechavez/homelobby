@@ -5,8 +5,8 @@
     <title>{{template "title" .}}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link href="css/style.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://unpkg.com/chota@latest">
+    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
   </head>
   <style>
     body.dark {
@@ -31,10 +31,10 @@
     </nav>
     <div class="container">
       <nav style="margin-bottom: 2rem;">
-        <div class="nav-center" style="gap: 1.5rem;">
-          <a href="/" class="active">Dashboard</a>
-          <a href="/notes">Notes</a>
-          <a href="/payments">Payments</a>
+        <div hx-target="main" hx-swap="innerHTML" hx-push-url="true" class="nav-center" style="gap: 1.5rem;">
+          <a hx-get="/" class="active">Dashboard</a>
+          <a hx-get="/notes">Notes</a>
+          <a hx-get="/payments">Payments</a>
         </div>
       </nav>
 

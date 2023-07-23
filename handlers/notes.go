@@ -8,6 +8,8 @@ import (
 
 func NotesHandler(w http.ResponseWriter, r *http.Request) {
 	var notesView *views.View
-	notesView = views.NewView("app", "views/notes.html")
-	notesView.Render(w, map[string]interface{}{"name": "Notes", "msg": "hello world"})
+	data := map[string]interface{}{"name": "Notes", "msg": "hello world"}
+
+	notesView = views.InitView(r, "app", "views/notes.html")
+	notesView.Render(w, data)
 }

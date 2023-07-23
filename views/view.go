@@ -17,16 +17,24 @@ func (v *View) Render(w http.ResponseWriter, data interface{}) error {
 	return v.Template.ExecuteTemplate(w, v.Layout, data)
 }
 
-func NewView(layout string, files ...string) *View {
+func InitView(r *http.Request, layout string, files ...string) *View {
+	hxRequest := r.Header.Get("HX-Request")
+  isHxRequest := hxRequest == "true"
+
 	files = append(layoutFiles(), files...)
 	t, err := template.ParseFiles(files...)
 	if err != nil {
 		panic(err)
 	}
 
+  defaultLayout := layout
+  if isHxRequest {
+    defaultLayout = "body"
+  }
+
 	return &View{
 		Template: t,
-		Layout:   layout,
+    Layout:   defaultLayout,
 	}
 }
 

@@ -1,5 +1,5 @@
 {{define "title"}}
-Homelobby | {{index . "name"}}
+Homelobby | {{ .Name }}
 {{end}}
 
 {{define "body"}}
@@ -17,10 +17,12 @@ Homelobby | {{index . "name"}}
 </header>
 
 <section class="row">
-  <div class="col">
-    <div class="card">
-      About notes page
+  {{ range $note := .Notes }}
+    <div class="col-12">
+      <div class="card">
+        {{ .Id }} - {{ .Detail }}
+      </div>
     </div>
-  </div>
+  {{ end }}
 </section>
 {{end}}

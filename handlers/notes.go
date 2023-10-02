@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -19,18 +20,32 @@ func InitNotesHandler(storage *storage.NoteStorage) *NotesHandler {
 func (n *NotesHandler) NoteRoutes() chi.Router {
 	router := chi.NewRouter()
 	router.Get("/", n.IndexHandler)
-  router.Get("/create", n.CreateNoteHandler)
-  router.Post("/", n.StoreNoteHandler)
+	router.Get("/create", n.CreateNoteHandler)
+	router.Post("/", n.StoreNoteHandler)
 
 	return router
 }
 
+type IndexNoteHandlerResponse struct {
+	Name  string
+	Notes []storage.Note
+}
+
 func (n *NotesHandler) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	var notesView *views.View
-	data := map[string]interface{}{"name": "Notes", "msg": "hello world"}
+
+	data, err := n.Storage.GetAllNotes()
+	if err != nil {
+		log.Println("NoteIndexHandler Error: ", err)
+	}
+
+	response := IndexNoteHandlerResponse{
+		Name:  "Notes",
+		Notes: data,
+	}
 
 	notesView = views.InitView(r, "app", "views/notes.html")
-	notesView.Render(w, data)
+	notesView.Render(w, map[string]interface{}{"Name": response.Name, "Notes": response.Notes})
 }
 
 func (n *NotesHandler) CreateNoteHandler(w http.ResponseWriter, r *http.Request) {
@@ -43,9 +58,9 @@ func (n *NotesHandler) CreateNoteHandler(w http.ResponseWriter, r *http.Request)
 
 func (n *NotesHandler) StoreNoteHandler(w http.ResponseWriter, r *http.Request) {
 	detail := r.FormValue("detail")
-  note := &storage.NoteInput{
-    Detail: detail,
-  }
+	note := &storage.NoteInput{
+		Detail: detail,
+	}
 	n.Storage.CreateNote(note)
 
 	http.Redirect(w, r, "/notes", http.StatusSeeOther)

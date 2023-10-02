@@ -1,6 +1,7 @@
 package views
 
 import (
+	"log"
 	"net/http"
 	"path/filepath"
 	"text/template"
@@ -14,6 +15,7 @@ type View struct {
 }
 
 func (v *View) Render(w http.ResponseWriter, data interface{}) error {
+	log.Println(data)
 	return v.Template.ExecuteTemplate(w, v.Layout, data)
 }
 

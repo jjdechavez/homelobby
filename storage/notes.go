@@ -7,6 +7,11 @@ type (
 		DB *sqlx.DB
 	}
 
+	Note struct {
+		Id     string
+		Detail string
+	}
+
 	NoteInput struct {
 		Detail string
 	}
@@ -41,4 +46,14 @@ func (storage *NoteStorage) CreateNote(noteInput *NoteInput) (int, error) {
 	}
 
 	return int(id), nil
+}
+
+func (storage *NoteStorage) GetAllNotes() ([]Note, error) {
+	notes := []Note{}
+	err := storage.DB.Select(&notes, "SELECT id, detail from notes")
+	if err != nil {
+		return notes, err
+	}
+
+	return notes, nil
 }

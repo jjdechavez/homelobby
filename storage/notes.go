@@ -8,7 +8,7 @@ type (
 	}
 
 	NoteInput struct {
-		detail string
+		Detail string
 	}
 )
 
@@ -28,9 +28,9 @@ func (storage *NoteStorage) CreateNoteTable() {
 	}
 }
 
-func (storage *NoteStorage) CreateNote(noteInput NoteInput) (int, error) {
+func (storage *NoteStorage) CreateNote(noteInput *NoteInput) (int, error) {
 	statement := "INSERT INTO notes (detail) VALUES (?)"
-	res, err := storage.DB.Exec(statement, noteInput.detail)
+	res, err := storage.DB.Exec(statement, noteInput.Detail)
 	if err != nil {
 		return 0, err
 	}

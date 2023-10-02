@@ -37,7 +37,7 @@ func main() {
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	r.Get("/", handlers.HomeHandler)
-	r.Get("/notes", handlers.NotesHandler)
+	r.Mount("/notes", handlers.InitNotesHandler(noteStorage).NoteRoutes())
 	r.Get("/payments", handlers.PaymentsHandler)
 
 	port := os.Getenv("PORT")

@@ -1,18 +1,26 @@
 {{define "title"}}
-  Homelobby | {{index . "name"}}
+Homelobby | {{index . "name"}}
 {{end}}
 
 {{define "body"}}
 <header>
   <h2>Notes</h2>
-  <p>Some notes that help me to remind</p>
+
+  <div class="row">
+    <div class="col">
+      <p class="is-marginless">Some notes that help me to remind</p>
+    </div>
+    <div class="col is-right">
+      <a hx-get="/notes/create" hx-target="main" hx-swap="innerHTML" hx-push-url="true" class="button primary">Add note</a>
+    </div>
+  </div>
 </header>
 
-<div class="row">
+<section class="row">
   <div class="col">
     <div class="card">
       About notes page
     </div>
   </div>
-</div>
+</section>
 {{end}}

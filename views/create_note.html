@@ -1,0 +1,27 @@
+{{define "title"}}
+Homelobby | {{index . "name"}}
+{{end}}
+
+{{define "body"}}
+<header>
+  <h2>Create Note</h2>
+
+  <div class="row">
+    <div class="col">
+      <p class="is-marginless">Provide information about the note</p>
+    </div>
+    <div class="col is-right">
+      <input type="submit" form="create-note" value="Save note" class="button primary">
+    </div>
+  </div>
+</header>
+
+<form id="create-note" action="/notes" method="post">
+  <fieldset>
+    <p>
+      Details
+      <textarea rows="3" cols="3" minlength="1" name="detail"></textarea>
+    </p>
+  </fieldset>
+</form>
+{{end}}

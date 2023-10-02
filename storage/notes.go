@@ -57,3 +57,13 @@ func (storage *NoteStorage) GetAllNotes() ([]Note, error) {
 
 	return notes, nil
 }
+
+func (storage *NoteStorage) GetNoteById(noteId string) (Note, error) {
+	note := Note{}
+	err := storage.DB.Get(&note, "SELECT id, detail from notes WHERE id = ?", noteId)
+	if err != nil {
+		return note, err
+	}
+
+	return note, nil
+}

@@ -20,7 +20,9 @@ Homelobby | {{ .Name }}
   {{ range $note := .Notes }}
     <div class="col-12">
       <div class="card">
-        {{ .Id }} - {{ .Detail }}
+        <a hx-get="/notes/{{ .Id }}/edit" hx-target="main" hx-push-url="true">
+          {{ .Id }} - {{ .Detail }}
+        </a>
       </div>
     </div>
   {{ end }}

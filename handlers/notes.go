@@ -22,6 +22,7 @@ func (n *NotesHandler) NoteRoutes() chi.Router {
 	router.Get("/", n.IndexHandler)
 	router.Get("/create", n.CreateNoteHandler)
 	router.Post("/", n.StoreNoteHandler)
+	router.Get("/{id}/edit", n.EditNoteHandler)
 
 	return router
 }
@@ -64,4 +65,19 @@ func (n *NotesHandler) StoreNoteHandler(w http.ResponseWriter, r *http.Request) 
 	n.Storage.CreateNote(note)
 
 	http.Redirect(w, r, "/notes", http.StatusSeeOther)
+}
+
+func (n *NotesHandler) EditNoteHandler(w http.ResponseWriter, r *http.Request) {
+	var notesView *views.View
+	noteId := chi.URLParam(r, "id")
+
+	note, err := n.Storage.GetNoteById(noteId)
+	if err != nil {
+		log.Println("NoteEditHandler Error: ", err)
+	}
+	data := map[string]interface{}{"name": "Edit Note"}
+	data["Note"] = note
+
+	notesView = views.InitView(r, "app", "views/edit_note.html")
+	notesView.Render(w, data)
 }

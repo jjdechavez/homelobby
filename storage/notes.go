@@ -67,3 +67,12 @@ func (storage *NoteStorage) GetNoteById(noteId string) (Note, error) {
 
 	return note, nil
 }
+
+func (storage *NoteStorage) UpdateNoteById(noteId string, detail string) error {
+	_, err := storage.DB.Exec("UPDATE notes SET detail = ? WHERE id = ?", detail, noteId)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

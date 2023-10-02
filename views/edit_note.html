@@ -16,7 +16,7 @@ Homelobby | {{index . "name"}}
   </div>
 </header>
 
-<form id="note_form" action="/notes/{{.Note.Id}}" method="put">
+<form id="note_form" hx-put="/notes/{{.Note.Id}}" hx-target="main" hx-push-url="true">
   <fieldset>
     <p>
       Details
